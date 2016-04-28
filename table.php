@@ -5,7 +5,7 @@
 	require_once("../../../config.php");
 	
 	//create connection
-	$mysql = new mysqli("localhost", $db_username, $db_password, "webpr2016_romil");
+	$mysql = new mysqli("localhost", $db_username, $db_password, "webpr2016_askaks");
 	
 	//SQL sentence
 	$stmt = $mysql->prepare("SELECT id, recipient, message, created FROM messages_sample ORDER BY created DESC LIMIT 10");
