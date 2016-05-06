@@ -1,55 +1,31 @@
+<table>
+    <thead>
+    <tr>
+        <td>ID</td>
+        <td>Nimi</td>
+        <td>E-mail</td>
+        <td>Vanus</td>
+        <td>Pääsmetüüp</td>
+        <td>KUSTUTA</td>
+    </tr>
+    </thead>
+    <tbody>
 <?php
-	// table.php
-	
-	//getting our config
-	require_once("../../../config.php");
-	
-	//create connection
-	$mysql = new mysqli("localhost", $db_username, $db_password, "webpr2016_askaks");
-	
-	//SQL sentence
-	$stmt = $mysql->prepare("SELECT id, recipient, message, created FROM messages_sample ORDER BY created DESC LIMIT 10");
-	
-	//if error in sentence
-	echo $mysql->error;
-	
-	//variables for data for each row we will get
-	$stmt->bind_result($id, $recipient, $message, $created);
-	
-	//query
-	$stmt->execute();
-	
-	$table_html = "";
-	
-	//add smth to string .=
-	$table_html .= "<table>";
-		$table_html .= "<tr>";
-			$table_html .= "<th>ID</th>";
-			$table_html .= "<th>Recipient</th>";
-			$table_html .= "<th>Message</th>";
-			$table_html .= "<th>Created</th>";
-		$table_html .= "</tr>";
-	
-	// GET RESULT 
-	//we have multiple rows
-	while($stmt->fetch()){
-		
-		//DO SOMETHING FOR EACH ROW
-		//echo $id." ".$message."<br>";
-		$table_html .= "<tr>"; //start new row
-			$table_html .= "<td>".$id."</td>"; //add columns
-			$table_html .= "<td>".$recipient."</td>";
-			$table_html .= "<td>".$message."</td>";
-			$table_html .= "<td>".$created."</td>";
-		$table_html .= "</tr>"; //end row
 
-	}
-	$table_html .= "</table>";
-	echo $table_html;
-	
-	
-	
+$query = 'SELECT * FROM ' . $tableName . ' WHERE deleted ="0";';
 
+$res = mysqli_query($con, $query);
+if($res){
+    if(mysqli_num_rows($res)){
+        while($row = mysqli_fetch_assoc($res)){
+            echo '<tr>';
+            echo '<td>'.$row['id'].'</td>'.'<td>'.$row['nimi'].'</td>'.'<td>'.$row['email'].'</td>'.'<td>'.$row['vanus'].'</td>'.'<td>'.$row['tyyp'].'</td>'.'<td><input type="submit" name="delete" value="Kustuta: ' . $row['id'] . '"/></td>';
+            echo '</tr>';
+        }
+    }
+}
 
 ?>
-<a href="app.php">app</a>
+
+    </tbody>
+</table>
